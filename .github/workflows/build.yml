@@ -21,26 +21,9 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Get release UploadUrl
-        id: getReleaseUploadUrl
-        uses: actions/github-script@v3.1.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            try {
-                  const releaseVersion = '16.6.5';
-                  const releaseResponse = await github.repos.getReleaseByTag({
-                      owner: '',
-                      repo: '', 
-                      tag: releaseVersion
-                  });
-                  const uploadUrl = releaseResponse.data.upload_url;
-                  const fs = require('fs');
-                  fs.appendFileSync(process.env.GITHUB_ENV, `UPLOAD_URL=${uploadUrl}\n`);
-                } catch (e) {
-                      core.setFailed(e.message);
-                  }
 
+
+    
       - uses: actions/checkout@v3
 
       - uses: actions/setup-node@v3
