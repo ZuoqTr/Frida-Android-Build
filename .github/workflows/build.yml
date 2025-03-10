@@ -28,19 +28,19 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             try {
-              const releaseVersion = '${{ github.event.inputs.FRIDA_VERSION }}'
-              const releaseResponse = await github.repos.getReleaseByTag({
-                owner: '${{ secrets.GIT_OWNER }}',
-                repo: '${{ secrets.GIT_REPO }}',
-                tag: releaseVersion
-              })
-              const {
-                data: { upload_url: uploadUrl }
-              } = releaseResponse;
-              core.setOutput('upload_url', uploadUrl);
-            } catch (e) {
-              core.setFailed(e.message);
-            }
+                  const releaseVersion = '16.6.5';
+                  const releaseResponse = await github.repos.getReleaseByTag({
+                      owner: 'your-github-username',  # 🔹 Replace with the actual owner
+                      repo: 'your-repo-name',  # 🔹 Replace with the actual repo name
+                      tag: releaseVersion
+                  });
+                  const uploadUrl = releaseResponse.data.upload_url;
+                  //Use environment files instead of set-output
+                  const fs = require('fs');
+                  fs.appendFileSync(process.env.GITHUB_ENV, `UPLOAD_URL=${uploadUrl}\n`);
+                } catch (e) {
+                      core.setFailed(e.message);
+                  }
 
       - uses: actions/checkout@v3
 
