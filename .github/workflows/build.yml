@@ -21,9 +21,27 @@ jobs:
           draft: false
           prerelease: false
 
+      - name: Get release UploadUrl
+        id: getReleaseUploadUrl
+        uses: actions/github-script@v3.1.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+              const releaseVersion = '${{ github.event.inputs.FRIDA_VERSION }}'
+              const releaseResponse = await github.repos.getReleaseByTag({
+                owner: '${{ secrets.GIT_OWNER }}',
+                repo: '${{ secrets.GIT_REPO }}',
+                tag: releaseVersion
+              })
+              const {
+                data: { upload_url: uploadUrl }
+              } = releaseResponse;
+              core.setOutput('upload_url', uploadUrl);
+            } catch (e) {
+              core.setFailed(e.message);
+            }
 
-
-    
       - uses: actions/checkout@v3
 
       - uses: actions/setup-node@v3
@@ -53,9 +71,9 @@ jobs:
         run: |
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
-          git clone https://github.com/ZuoqTr/Frida-Patchs Patchs
+          git clone https://github.com/JsHookApp/Frida-Patchs Patchs
           git clone -b ${{ github.event.inputs.FRIDA_VERSION }} --recurse-submodules https://github.com/frida/frida frida
-          cd frida/subprojects/frida-core
+          cd frida/frida-core
           git am ../../Patchs/frida-core/*.patch
 
       - name: build frida for Android
