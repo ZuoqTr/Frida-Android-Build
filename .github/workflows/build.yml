@@ -30,8 +30,8 @@ jobs:
             try {
               const releaseVersion = '${{ github.event.inputs.FRIDA_VERSION }}'
               const releaseResponse = await github.repos.getReleaseByTag({
-                owner: process.env.GIT_OWNER,
-                repo: process.env.GIT_REPO,
+                owner: 'ZuoqTr',
+                repo: 'Frida-Android-Build',
                 tag: releaseVersion
               })
               const {
