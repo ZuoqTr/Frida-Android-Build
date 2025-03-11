@@ -58,6 +58,7 @@ jobs:
         cd frida
         ./configure --host=android-arm64
         make
+        tree frida/build/subprojects/frida-core/
          
     - name: Upload Built Files
       uses: actions/upload-artifact@v4
