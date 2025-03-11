@@ -63,5 +63,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: frida-android-${{ github.event.inputs.FRIDA_VERSION }}
-        path: frida/build/subprojects/frida-core/inject/frida-inject
+        path: frida/build/subprojects/frida-core/server/frida-server
         
